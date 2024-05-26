@@ -1,9 +1,9 @@
 
 public class Ticket {
 	private String nroTicket; 
-	private String LugarEstacionamiento; /*probando git*/
+	private String lugarEstacionamiento; /*probando git*/
 	
-	public Ticket() {
-		
+	public Ticket(String j) {
+		lugarEstacionamiento = j;
 	}
 }
