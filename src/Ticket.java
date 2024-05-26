@@ -1,11 +1,20 @@
+import java.time.LocalDateTime;
 
-public class Ticket {
+public abstract class Ticket {
+	
 	private String nroTicket; 
-	private String lugarEstacionamiento; /*probando git*/
+	private PuntoDeVenta puntoDeEmision;
+	private LocalDateTime fechayHoraDeEmision;
+	private double montoFinal;
 	
 	
-	public Ticket(String j) {
-		lugarEstacionamiento = j;
-
+	public Ticket(String n, PuntoDeVenta p, LocalDateTime l, double m) {
+		
+		nroTicket = n;
+		puntoDeEmision = p;
+		fechayHoraDeEmision = l;
+		montoFinal = m;
 	}
+	
+	
 }
