@@ -1,11 +1,23 @@
 
 public class SistemaDeEstacionamientoMedido {
-
+	/*atributos en si*/
+	
+	/*conoce a*/
+	private List<Ticket>                ticketsDelSistema;
+	private List<Infraccion>            infracciones;
+	private List<Notificable>           notificados;
+	private List<Estacionamiento>       estacionamientos;
+	private List<Usuario>               usuarios;
+	private List<ZonaDeEstacionamiento> zonasDeEstacionamiento;
+	
+	
+	
+	
 	public SistemaDeEstacionamientoMedido() {
 		
 	}
 	
-	public void cargarCelular(Int numero, double monto) {
+	public void cargarCelular(int numero, double monto) {
 		
 	}
 	public void registrarTicket(Ticket ticket) {
@@ -14,7 +26,7 @@ public class SistemaDeEstacionamientoMedido {
 	public void registarEstacionamiento(Estacionamiento e) {
 		
 	}
-	public void registrarUsuario(Usuario u) {
+	public void registrarUsuario(AplicacionUsuario u) {
 		
 	}
 	public void registrarInfraccion(Infraccion i) {
