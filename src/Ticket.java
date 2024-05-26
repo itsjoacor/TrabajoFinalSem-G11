@@ -15,6 +15,25 @@ public abstract class Ticket {
 		fechayHoraDeEmision = l;
 		montoFinal = m;
 	}
-	
+
+
+	public String getNroTicket() {
+		return nroTicket;
+	}
+
+
+	public PuntoDeVenta getPuntoDeEmision() {
+		return puntoDeEmision;
+	}
+
+
+	public LocalDateTime getFechayHoraDeEmision() {
+		return fechayHoraDeEmision;
+	}
+
+
+	public double getMontoFinal() {
+		return montoFinal;
+	}
 	
 }
