@@ -4,8 +4,8 @@ public class TicketDeRecargaDeCelular extends Ticket {
 
 	int numeroRecargado;
 	
-	public TicketDeRecargaDeCelular(String n, PuntoDeVenta p, LocalDateTime l, double m, int cel) {
-		super(n, p, l, m);
+	public TicketDeRecargaDeCelular(PuntoDeVenta p, LocalDateTime l, double m, int cel) {
+		super(p, l, m);
 		numeroRecargado = cel;
 	}
 

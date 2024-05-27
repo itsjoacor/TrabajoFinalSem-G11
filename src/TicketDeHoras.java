@@ -5,8 +5,8 @@ public class TicketDeHoras extends Ticket {
 	int cantidadDeHoraCompradas;
 	
 	
-	public TicketDeHoras(String n, PuntoDeVenta p, LocalDateTime l, double m, int c) {
-		super(n, p, l, m);
+	public TicketDeHoras(PuntoDeVenta p, LocalDateTime l, double m, int c) {
+		super(p, l, m);
 		cantidadDeHoraCompradas = c;
 	}
 
