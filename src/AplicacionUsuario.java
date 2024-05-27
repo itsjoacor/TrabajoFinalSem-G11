@@ -9,18 +9,20 @@ public class AplicacionUsuario extends AplicacionSEM {
 	/*conoce a*/
 	private ModoDeUso                      modalidad;
 	private EstadoEstacionamiento          estado;
-	private SistemaDeEstacionamientoMedido sistema;
 	
-	
-	public AplicacionUsuario(int num, String p, boolean notifAct) {
+	public AplicacionUsuario(int num, String p) {
+		super();
 		numeroDeCelular        = num;
 		creditoDisponible      = 0.d;  /*asumo que se instancia en cero?*/
 		patente                = p;
 		notificacionesActivas  = true; /*por default vienen activadas? */
+		estado                 = new EstadoEstacionamientoNoVigente();
 		
 	}
 	
-	public void iniciarEstacionamiento(String patente){
+	public void iniciarEstacionamiento(){
+		estado.iniciarEstacionamiento(this);
+		
 		/*ver que genera iniciar estacionamiento
 		 * agregarlo al SEM
 		 * generar un ticket
@@ -29,8 +31,10 @@ public class AplicacionUsuario extends AplicacionSEM {
 		
 	}
 	
-	public void finalizarEstacionamiento(int celular){
-		sistema.finalizarEstacionamiento(celular);
+	public void finalizarEstacionamiento(){
+		estado.finalizarEstacionamiento(this);
+
+
 	}
 	
 	public void cargarCredito(double m){

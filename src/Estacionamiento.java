@@ -30,7 +30,7 @@ public class Estacionamiento {
 	}
 
 
-	public boolean isEstaVigente() {
+	public boolean estaVigente() {
 		return estaVigente;
 	}
 }
