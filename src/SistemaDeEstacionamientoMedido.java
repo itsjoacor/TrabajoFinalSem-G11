@@ -50,33 +50,25 @@ public class SistemaDeEstacionamientoMedido {
 		infracciones.add(i);
 	}
 	
-	
-	
-	
 	public void finalizarEstacionamiento(int telefono){
 		//como tratar un optional
-		Optional<AplicacionUsuario> usuarioBuscado = usuarios.stream()
+		AplicacionUsuario usuarioBuscado = usuarios.stream()
 		                                            .filter(u -> u.getNumero() == telefono)
-				                                    .findFirst();
+				                                    .findFirst().get();
 		
-		Optional<Estacionamiento> estacionamientoDelUsuario = estacionamientos.stream()
-                                                              .filter(e -> e.getPatente()== usuarioBuscado.getPatente())
-                                                              .findFirst();
-		if (usuarioBuscado.isEmpty())
-		{
-			//el usuario no esta, no hago nada
-		}
-			double montoACobrar = estacionamientoDelUsuario.get().montoACobrar();
-			usuarioBuscado.get().cobrarMonto(montoACobrar);
+		Estacionamiento estacionamientoDelUsuario = estacionamientos.stream()
+                                                              .filter(e -> e.getPatente() == usuarioBuscado.getPatente())
+                                                              .findFirst().get();
+		
+		double montoACobrar = estacionamientoDelUsuario.montoACobrar();
+		usuarioBuscado.cobrarMonto(montoACobrar);
 			
-			estacionamientoDelUsuario.get().darDeBaja();
-			usuarioBuscado.get().cambiarDeEstado()
+		estacionamientoDelUsuario.darDeBaja();
+		usuarioBuscado.cambiarDeEstado();
 				//si quiero desde el sem finalizar todo, para no tener que setearle un estado, como lo impletente?
 							//le digo al usuario que finalice y ahi como los estados se conocen se puede relaizar
 		    //estadoUsuarioEstacionamiento -> false  FIJARSE ENCAPSULAMIENTO
 
-		
-		
 		int i = 0;
 		while (i < usuarios.size()){
 	        AplicacionUsuario usuario = usuarios.get(i);
@@ -130,25 +122,14 @@ public class SistemaDeEstacionamientoMedido {
 	}
 	
 	
-	
-	
-	
-	
 	public void subscribirNotificado(Notificable n) {
 		
 	}
 	
 	
-	
-	
-	
-	
 	public void desubscribirNotificado(Notificable n) {
 		
 	}
-	
-	
-	
 	
 	
 	public int telefonoDelEstacionamiento(String patente) {
@@ -163,14 +144,5 @@ public class SistemaDeEstacionamientoMedido {
 		}
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-
 	
 }

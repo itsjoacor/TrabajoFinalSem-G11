@@ -1,5 +1,5 @@
 
-public class EstadoEstacionamientoVigente extends EstadoEstacionamiento {
+public class EstadoEstacionamientoVigente implements EstadoEstacionamiento {
 	
 	public void driving() {
 		

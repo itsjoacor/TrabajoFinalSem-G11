@@ -33,4 +33,13 @@ public class Estacionamiento {
 	public boolean estaVigente() {
 		return estaVigente;
 	}
+
+	public double montoACobrar() {
+		return (this.horaFin.getHour() - this.horaInicio.getHour()) * 0.40;
+	}
+
+	public void darDeBaja() {
+		//Si el estacionamiento no esta vigente, no cambia nada
+		this.estaVigente = false;
+	}
 }
