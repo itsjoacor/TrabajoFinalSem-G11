@@ -50,11 +50,18 @@ public class SistemaDeEstacionamientoMedido {
 		infracciones.add(i);
 	}
 	
-	
+	public boolean estaVigenteLaPatente(String p) {
+		
+		Optional<Estacionamiento> estacionamientoBuscado = estacionamientos.stream().filter(e -> e.getPatente().equals(p)).findFirst();
+		
+		if (!estacionamientoBuscado.isEmpty()){
+			return estacionamientoBuscado.get().estaVigente();
+		}
+		return false; 
+	}
 	
 	
 	public void finalizarEstacionamiento(int telefono){
-		//como tratar un optional
 		Optional<AplicacionUsuario> usuarioBuscado = usuarios.stream()
 		                                            .filter(u -> u.getNumero() == telefono)
 				                                    .findFirst();
@@ -70,7 +77,7 @@ public class SistemaDeEstacionamientoMedido {
 			usuarioBuscado.get().cobrarMonto(montoACobrar);
 			
 			estacionamientoDelUsuario.get().darDeBaja();
-			usuarioBuscado.get().cambiarDeEstado()
+			usuarioBuscado.get().cambiarDeEstado();
 				//si quiero desde el sem finalizar todo, para no tener que setearle un estado, como lo impletente?
 							//le digo al usuario que finalice y ahi como los estados se conocen se puede relaizar
 		    //estadoUsuarioEstacionamiento -> false  FIJARSE ENCAPSULAMIENTO
@@ -130,11 +137,18 @@ public class SistemaDeEstacionamientoMedido {
 	}
 	
 	
+	public void nuevaInfraccion(Infraccion inf){
+		
+		infracciones.add(inf);
+	}
+	
+	
 	
 	
 	
 	
 	public void subscribirNotificado(Notificable n) {
+		
 		
 	}
 	
@@ -143,7 +157,7 @@ public class SistemaDeEstacionamientoMedido {
 	
 	
 	
-	public void desubscribirNotificado(Notificable n) {
+	public void desuSbscribirNotificado(Notificable n) {
 		
 	}
 	
