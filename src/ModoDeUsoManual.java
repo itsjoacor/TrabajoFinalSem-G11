@@ -1,16 +1,24 @@
 
-public class ModoDeUsoManual extends ModoDeUso {
+public class ModoDeUsoManual implements ModoDeUso {
 	
-	public void notificarPosibleInicioDeEstacionamiento() {
+	public void notificarPosibleInicioDeEstacionamiento(AplicacionUsuario a) {
+		
+		if (a.notificacionesActivas()) {
+			// hacer el print que es la "notificacion" de inicio de estacionamiento.
+		}
 		
 	}
 	
-	public void notificarPosibleFinDeEstacionamiento() {
+	public void notificarPosibleFinDeEstacionamiento(AplicacionUsuario a) {
 		
+		if (a.notificacionesActivas()) {
+			// hacer el print que es la "notificacion" de fin de estacionamiento.
+		}
 	}
 	
-	public void activarODesactivarNotificaciones() {
+	public void activarODesactivarNotificaciones(AplicacionUsuario a) {
 		
+		a.activarODesactivarNotificaciones();
 	}
 
 }

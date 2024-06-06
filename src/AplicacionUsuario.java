@@ -1,23 +1,22 @@
+import java.time.LocalTime;
 
 public class AplicacionUsuario extends AplicacionSEM {
-	/*atributos en si*/
+	
 	private int     numeroDeCelular;
 	private Double  creditoDisponible;
 	private String  patente;
 	private boolean notificacionesActivas;
+	private ModoDeUso modalidad;
+	private EstadoEstacionamiento estado;
 	
-	/*conoce a*/
-	private ModoDeUso                      modalidad;
-	private EstadoEstacionamiento          estado;
 	
-	public AplicacionUsuario(int num, String p) {
-		super();
+	public AplicacionUsuario(SistemaDeEstacionamientoMedido s, int num) {
+		super(s);
 		numeroDeCelular        = num;
-		creditoDisponible      = 0.d;  /*asumo que se instancia en cero?*/
-		patente                = p;
-		notificacionesActivas  = true; /*por default vienen activadas? */
+		creditoDisponible      = 0.d;
+		notificacionesActivas  = true;
 		estado                 = new EstadoEstacionamientoNoVigente();
-		
+		modalidad			   = new ModoDeUsoAutomatico();
 	}
 	
 	public void iniciarEstacionamiento(){
@@ -50,7 +49,7 @@ public class AplicacionUsuario extends AplicacionSEM {
 	}
 	
 	public void establecerElModoDeUso(ModoDeUso m){
-		modalidad = /*ver como se va a implementar*/
+		modalidad = m;
 	}
 	
 	public void activarODesactivarNotificaciones(){
@@ -77,6 +76,19 @@ public class AplicacionUsuario extends AplicacionSEM {
 		
 		return patente;	
 	}
+	
+	public void iniciarEstacionamientoSEM(String patente){
+		
+		this.patente = patente;
+		// hay que hacer un if para ver si tiene el credito suficiente. y si no lo tiene notificar que no se inicio pq no tiene saldo.
+		LocalTime horaDeFin = LocalTime.of(20, 0);
+		EstacionamientoMedianteApp estacionamientoNuevo = new EstacionamientoMedianteApp(patente, LocalTime.now(), horaDeFin, numeroDeCelular);
+		getSistema().registarEstacionamiento(estacionamientoNuevo);
+	}
 
+	public void finalizarEstacionamientoSEM() {
+		
+		getSistema().finalizarEstacionamiento(numeroDeCelular);
+	}
 }
 
