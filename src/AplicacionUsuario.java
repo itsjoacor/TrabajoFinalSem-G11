@@ -77,7 +77,11 @@ public class AplicacionUsuario extends AplicacionSEM {
 	}
 
 	public void cambiarDeEstado() {
-		this.estado.cambiarEstado();
+		this.estado.cambiarEstado(this);
+	}
+	
+	public void setEstado(EstadoEstacionamiento e) {
+		this.estado = e;
 	}
 
 }

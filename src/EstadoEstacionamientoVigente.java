@@ -16,5 +16,12 @@ public class EstadoEstacionamientoVigente implements EstadoEstacionamiento {
 						
 						
 	}
+
+	@Override
+	public void cambiarEstado(AplicacionUsuario aplicacionUsuario) {
+		
+		aplicacionUsuario.setEstado(new EstadoEstacionamientoNoVigente());
+		
+	}
 	
 }

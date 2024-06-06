@@ -35,7 +35,7 @@ public class Estacionamiento {
 	}
 
 	public double montoACobrar() {
-		return (this.horaFin.getHour() - this.horaInicio.getHour()) * 0.40;
+		return (this.horaFin.getHour() - this.horaInicio.getHour()) * 40;
 	}
 
 	public void darDeBaja() {
