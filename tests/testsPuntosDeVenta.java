@@ -1,8 +1,31 @@
+import static org.junit.jupiter.api.Assertions.*;
 
-public class testsPuntosDeVenta {
+import java.time.LocalTime;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class testsPuntosDeVenta {
 	
-	private PuntoDeVenta pdv = new PuntoDeVenta();
-	private Estacionamiento est = new Estacionamiento();
-	private SistemaDeEstacionamientoMedido sem = new SistemaDeEstacionamientoMedido();
+	private AplicacionInspector insp;
+	private ZonaDeEstacionamiento zona;
+	private PuntoDeVenta pdv;
+	private Estacionamiento est;
+	private SistemaDeEstacionamientoMedido sem;
 	
+	@BeforeEach
+	public void setUp() {
+		pdv = new PuntoDeVenta(zona, sem);
+		est = new Estacionamiento("jwm-811", LocalTime.now(), LocalTime.now().plusHours(2));
+		sem = new SistemaDeEstacionamientoMedido();
+		
+		pdv.cargarCelular(1170142623, 100);
+	}
+	
+
+	@Test
+	void test() {
+		fail("Not yet implemented");
+	}
+
 }
