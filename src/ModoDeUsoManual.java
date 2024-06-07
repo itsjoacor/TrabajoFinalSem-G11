@@ -1,5 +1,5 @@
 
-public class ModoDeUsoManual implements ModoDeUso {
+public class ModoDeUsoManual extends ModoDeUso {
 	
 	public void notificarPosibleInicioDeEstacionamiento(AplicacionUsuario a) {
 		

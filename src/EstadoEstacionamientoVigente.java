@@ -1,5 +1,5 @@
 
-public class EstadoEstacionamientoVigente extends EstadoEstacionamiento {
+public class EstadoEstacionamientoVigente implements EstadoEstacionamiento {
 	
 	public void driving() {
 		
@@ -15,6 +15,13 @@ public class EstadoEstacionamientoVigente extends EstadoEstacionamiento {
 		//decirle al sem qeu se actualice 
 						
 						
+	}
+
+	@Override
+	public void cambiarEstado(AplicacionUsuario aplicacionUsuario) {
+		
+		aplicacionUsuario.setEstado(new EstadoEstacionamientoNoVigente());
+		
 	}
 	
 }

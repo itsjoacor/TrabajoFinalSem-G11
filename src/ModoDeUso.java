@@ -1,9 +1,15 @@
 
-public interface ModoDeUso {
+public abstract class ModoDeUso {
 
-	public void notificarPosibleInicioDeEstacionamiento(AplicacionUsuario a);
+	public void notificarPosibleInicioDeEstacionamiento(AplicacionUsuario a) {
+		
+	}
 	
-	public void notificarPosibleFinDeEstacionamiento(AplicacionUsuario a);
+	public void notificarPosibleFinDeEstacionamiento(AplicacionUsuario a) {
+		
+	}
 	
-	public void activarODesactivarNotificaciones(AplicacionUsuario a);
+	public void activarODesactivarNotificaciones(AplicacionUsuario a) {
+		
+	}
 }

@@ -32,8 +32,6 @@ public class AplicacionUsuario extends AplicacionSEM {
 	
 	public void finalizarEstacionamiento(){
 		estado.finalizarEstacionamiento(this);
-
-
 	}
 	
 	public void cargarCredito(double m){
@@ -86,9 +84,20 @@ public class AplicacionUsuario extends AplicacionSEM {
 		getSistema().registarEstacionamiento(estacionamientoNuevo);
 	}
 
+
 	public void finalizarEstacionamientoSEM() {
 		
 		getSistema().finalizarEstacionamiento(numeroDeCelular);
 	}
+
+	public void cambiarDeEstado() {
+		this.estado.cambiarEstado(this);
+	}
+	
+	public void setEstado(EstadoEstacionamiento e) {
+		this.estado = e;
+	}
+
+
 }
 
