@@ -6,9 +6,8 @@ public class AplicacionInspector extends AplicacionSEM {
 	private int idInspector;
 	private ZonaDeEstacionamiento zona;
 	
-	public AplicacionInspector(int id, ZonaDeEstacionamiento zonaEst) {
-					
-		super();
+	public AplicacionInspector(SistemaDeEstacionamientoMedido s, int id, ZonaDeEstacionamiento zonaEst) {			
+		super(s);
 		idInspector = id;
 		zona = zonaEst;
 	}

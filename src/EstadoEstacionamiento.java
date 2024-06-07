@@ -1,8 +1,22 @@
 
-public interface EstadoEstacionamiento {
-	
-	public abstract void driving();
-	public abstract void walking();
-	public abstract void cambiarEstado(AplicacionUsuario aplicacionUsuario);
+public abstract class EstadoEstacionamiento {
 
+	
+	public void driving(AplicacionUsuario aplicacionUsuario) {
+		
+	}
+	
+	public void walking(AplicacionUsuario aplicacionUsuario) {
+		
+	}
+	
+	public void iniciarEstacionamiento(AplicacionUsuario aplicacionUsuario, String patente) {
+		
+	}
+	
+	public void finalizarEstacionamiento(AplicacionUsuario aplicacionUsuario) {
+		
+	}
+	
+	
 }

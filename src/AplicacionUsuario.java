@@ -1,6 +1,6 @@
 import java.time.LocalTime;
 
-public class AplicacionUsuario extends AplicacionSEM {
+public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  {
 	
 	private int     numeroDeCelular;
 	private Double  creditoDisponible;
@@ -19,15 +19,8 @@ public class AplicacionUsuario extends AplicacionSEM {
 		modalidad			   = new ModoDeUsoAutomatico();
 	}
 	
-	public void iniciarEstacionamiento(){
-		estado.iniciarEstacionamiento(this);
-		
-		/*ver que genera iniciar estacionamiento
-		 * agregarlo al SEM
-		 * generar un ticket
-		 * genera  un estacionamiento
-		 * etc*/
-		
+	public void iniciarEstacionamiento(String patente){
+		estado.iniciarEstacionamiento(this, patente);
 	}
 	
 	public void finalizarEstacionamiento(){
@@ -50,21 +43,23 @@ public class AplicacionUsuario extends AplicacionSEM {
 		modalidad = m;
 	}
 	
-	public void activarODesactivarNotificaciones(){
-		notificacionesActivas = !notificacionesActivas;
-		/*fijarse si es esto lo que se quiere*/
-	}
 	
 	public boolean notificacionesActivas(){
 		return notificacionesActivas;
 	}
 	
 	public void notificarPosibleInicioEstacionamiento(){
+		this.modalidad.notificarPosibleInicioDeEstacionamiento(this);
 	}
 	
 	public void notificarPosibleFinEstacionamiento(){
+		this.modalidad.notificarPosibleFinDeEstacionamiento(this);
 	}
 
+	public void activarODesactivarNotificaciones(){
+		this.modalidad.activarODesactivarNotificaciones(this);
+	}
+	
 	public int getNumero() {
 		
 		return numeroDeCelular;	
@@ -82,6 +77,7 @@ public class AplicacionUsuario extends AplicacionSEM {
 		LocalTime horaDeFin = LocalTime.of(20, 0);
 		EstacionamientoMedianteApp estacionamientoNuevo = new EstacionamientoMedianteApp(patente, LocalTime.now(), horaDeFin, numeroDeCelular);
 		getSistema().registarEstacionamiento(estacionamientoNuevo);
+		setEstado(new EstadoEstacionamientoVigente());
 	}
 
 
@@ -89,15 +85,19 @@ public class AplicacionUsuario extends AplicacionSEM {
 		
 		getSistema().finalizarEstacionamiento(numeroDeCelular);
 	}
-
-	public void cambiarDeEstado() {
-		this.estado.cambiarEstado(this);
-	}
+	
 	
 	public void setEstado(EstadoEstacionamiento e) {
 		this.estado = e;
 	}
-
+	
+	public void driving() {
+		this.estado.driving(this);
+	}
+	
+	public void walking() {
+		this.estado.walking(this);
+	}
 
 }
 
