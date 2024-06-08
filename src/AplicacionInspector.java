@@ -13,18 +13,16 @@ public class AplicacionInspector extends AplicacionSEM {
 	}
 	
 	
-	public boolean consultarEstacionamiento(String patente){
+	public void consultarEstacionamiento(String patente){
 		
-		return sistema.estaVigenteLaPatente(patente);
-		
+		if(!sistema.estaVigenteLaPatente(patente)) {
+			emitirInfraccion(patente);
+		}
 	}
 	
-	public void emitirInfraccion(String patente){
-		
-		if (!consultarEstacionamiento(patente)){
+	private void emitirInfraccion(String patente){
 			Infraccion infraccionACargar = new Infraccion(patente, LocalDate.now(), LocalTime.now(),idInspector, zona);
-			sistema.nuevaInfraccion(infraccionACargar);
-		}
+			sistema.registrarNuevaInfraccion(infraccionACargar);
 	}	
 	
 	

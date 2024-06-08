@@ -80,7 +80,7 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 		if (hayCreditoDisponible()) {
 			LocalTime horaDeFin = LocalTime.of(20, 0);
 			EstacionamientoMedianteApp estacionamientoNuevo = new EstacionamientoMedianteApp(patente, LocalTime.now(), horaDeFin, numeroDeCelular);
-			getSistema().registarEstacionamiento(estacionamientoNuevo);
+			getSistema().iniciarEstacionamiento(estacionamientoNuevo, this);
 			setEstado(new EstadoEstacionamientoVigente());
 		}
 		else {
@@ -90,12 +90,8 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 
 
 	private boolean hayCreditoDisponible() {
-		
-		LocalTime horaActual = LocalTime.now();
-		LocalTime horaDeFinDeLaFranjaHoraria = sistema.getHoraFinFranjaHoraria();		        // Aclaracion: si el dia de mañana cambia la hora de fin, no se tiene que modificar la clase AplicacionUsuario.
-		int diferenciasDeHoras = horaActual.getHour() - horaDeFinDeLaFranjaHoraria.getHour();
-		double creditoNecesario = sistema.valorParaEstaCantidadDeHoras(diferenciasDeHoras);		// Aclaracion: si el dia de mañana cambia el precio por hora, no se tiene que modificar la clase AplicacionUsuario.
-		
+	        																											// Aclaracion: si el dia de mañana cambia la hora de fin, no se tiene que modificar la clase AplicacionUsuario.
+		double creditoNecesario = sistema.montoParaElHorario(LocalTime.now(), sistema.getHoraFinFranjaHoraria());		// Aclaracion: si el dia de mañana cambia el precio por hora, no se tiene que modificar la clase AplicacionUsuario.
 		return creditoDisponible >= creditoNecesario;
 	}
 

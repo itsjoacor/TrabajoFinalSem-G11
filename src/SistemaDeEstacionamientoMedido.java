@@ -1,6 +1,5 @@
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +29,12 @@ public class SistemaDeEstacionamientoMedido {
 	
 	public void cargarCelular(int numeroACargar, double monto) {
 		
-		usuarios.stream().filter(u -> u.getNumero() == numeroACargar).findFirst().ifPresent(u -> u.cargarCredito(monto));
+		Optional<AplicacionUsuario> usuario = usuarios.stream().filter(u -> u.getNumero() == numeroACargar).findFirst();
+		
+		if(usuario.isPresent()){
+			usuario.get().cargarCredito(monto);
+			notificarATodosCargaDeCredito(usuario.get());
+		}
 	}
 	
 	
@@ -39,10 +43,16 @@ public class SistemaDeEstacionamientoMedido {
 		
 	}
 	
-	public void registarEstacionamiento(Estacionamiento e){
+	public void iniciarEstacionamiento(Estacionamiento e, AplicacionUsuario a){
+		estacionamientos.add(e);
+		notificarATodosInicioDeEstacionamiento(a);
+	}
+	
+	public void iniciarEstacionamiento(Estacionamiento e){
 		estacionamientos.add(e);
 	}
 	
+
 	public void registrarUsuario(AplicacionUsuario u) {
 		usuarios.add(u);
 	}
@@ -69,86 +79,64 @@ public class SistemaDeEstacionamientoMedido {
     Estacionamiento estacionamientoDelUsuario = estacionamientos.stream().filter(e -> e.getPatente() == usuarioBuscado.getPatente()).findFirst().get();
     
     estacionamientoDelUsuario.setHoraFin(LocalTime.now());
-    usuarioBuscado.cobrarMonto(montoACobrar);
-        
-    estacionamientoDelUsuario.darDeBaja();
-    }
+    usuarioBuscado.cobrarMonto(montoParaElHorario(estacionamientoDelUsuario.getHoraInicio(), LocalTime.now()));
+    
+    notificarATodosFinalizacionDeEstacionamiento(usuarioBuscado);
+  
+	}
     
 	
+	private void notificarATodosFinalizacionDeEstacionamiento(AplicacionUsuario a) {
+		notificados.stream().forEach(n -> n.inicioEstacionamiento(a));
+	}
 	
+	
+	private void notificarATodosInicioDeEstacionamiento(AplicacionUsuario a) {
+		notificados.stream().forEach(n -> n.finalizoEstacionamiento(a));
+	}
+	
+	
+	private void notificarATodosCargaDeCredito(AplicacionUsuario a) {
+		notificados.stream().forEach(n -> n.cargoCredito(a));
+	}
+	
+
 	public void finalizarTodosLosEstacionamientos() {
-		// finalizarTodosLosEst()
-		// finalizarTodosLosUsuarios()  puede ser algo asi tambien y mas lindo
+		
 		for (AplicacionUsuario usuario : usuarios){
-			
 			usuario.finalizarEstacionamiento();
-			
-			/*Fijarse que hace 2 busquedas una locura
-			 * 
-			 * ver donde mas tengo que actualizar
-			 *ticket queda   */
-            	
        }
 	}
 
-	
-	
-	
-	
-	
-	public boolean seEncuentraVigente(String patente) {
-		Optional<Estacionamiento> estacionamiento = estacionamientos.stream()
-                .filter(e -> e.getPatente()== patente)
-                .findFirst();
-		
-		if (estacionamiento.isEmpty()) {
-			return false;
-		}
-			return estacionamiento.get().estaVigente();
-		
-	}
-	
 
-	public void nuevaInfraccion(Infraccion inf){
-		
+	public void registrarNuevaInfraccion(Infraccion inf){
 		infracciones.add(inf);
 	}
 	
-	
-	
 
 	public void subscribirNotificado(Notificable n) {
-		
-		
+		notificados.add(n);
 	}
 	
 
 	
 	public void desuscscribirNotificado(Notificable n) {
-
+		notificados.remove(n);
 	}
 	
-	
-	public int telefonoDelEstacionamiento(String patente) {
-		int i = 0;
-		while (i < usuarios.size()) {
-	        AplicacionUsuario usuario = usuarios.get(i);
-	        if (usuario.getPatente() == patente)
-	        {
-	            return usuario.getNumero();
-	        }
-	        i++; /*estoy seguro que se encuentra en la lista, el return corta*/
-		}
-		
-	}
 
-	public double valorParaEstaCantidadDeHoras(int cantidadDeHoras) {
+	public double montoParaElHorario(LocalTime horaInicio, LocalTime horaFin) {
 		
-		return cantidadDeHoras * precioPorHora;
+		return (horaFin.getHour() - horaInicio.getHour()) * precioPorHora;	
 	}
+	
 
 	public LocalTime getHoraFinFranjaHoraria() {
 		return horaDeFinDeLaFranja;
+	}
+	
+	public void registrarNuevaZona(ZonaDeEstacionamiento z) {
+		zonasDeEstacionamiento.add(z);
 	}
 	
 }

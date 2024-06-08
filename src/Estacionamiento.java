@@ -1,18 +1,16 @@
 import java.time.LocalTime;
 
-public class Estacionamiento {
-	
+public abstract class Estacionamiento {
+
 	protected String patente;
 	protected LocalTime horaInicio;
 	protected LocalTime horaFin;
-	protected boolean estaVigente;
 
 	
 	public Estacionamiento(String p, LocalTime hi, LocalTime hf) {	
 		patente = p;
 		horaInicio = hi;
 		horaFin = hf;
-		estaVigente = true;
 	}
 
 	public String getPatente() {
@@ -29,15 +27,12 @@ public class Estacionamiento {
 		return horaFin;
 	}
 
-
-	public boolean estaVigente() {
-		return estaVigente;
+	public boolean estaVigente() {	
+		
+		return horaFin.isAfter(LocalTime.now());
 	}
 
-
-	public void darDeBaja() {
-		//Si el estacionamiento no esta vigente, no cambia nada
-		this.estaVigente = false;
+	public void setHoraFin(LocalTime hora) {
+		horaFin = hora;
 	}
-
 }

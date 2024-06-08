@@ -26,7 +26,7 @@ public class PuntoDeVenta {
 		TicketDeHoras nuevoTicket = creacionDeTicketDeHoras(cantidadDeHoras);
 		
 		
-		sistema.registarEstacionamiento(nuevoEstacionamiento);
+		sistema.iniciarEstacionamiento(nuevoEstacionamiento);
 		sistema.registrarTicket(nuevoTicket);
 		
 	}

@@ -1,8 +1,8 @@
 public interface Notificable {
 
-	public void inicioEstacionamiento(AplicacionUsuario au);
-	public void finalizoEstacionamiento(AplicacionUsuario au);
-	public void cargoCredito(AplicacionUsuario au);
+	public void inicioEstacionamiento(AplicacionUsuario a);
+	public void finalizoEstacionamiento(AplicacionUsuario a);
+	public void cargoCredito(AplicacionUsuario a);
 	
 }
 
