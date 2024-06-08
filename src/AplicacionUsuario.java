@@ -60,6 +60,10 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 		this.modalidad.activarODesactivarNotificaciones(this);
 	}
 	
+	public void aODesactivarNotificaciones() {
+		notificacionesActivas = !notificacionesActivas;
+	}
+	
 	public int getNumero() {
 		
 		return numeroDeCelular;	
@@ -73,22 +77,38 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 	public void iniciarEstacionamientoSEM(String patente){
 		
 		this.patente = patente;
-		// hay que hacer un if para ver si tiene el credito suficiente. y si no lo tiene notificar que no se inicio pq no tiene saldo.
-		LocalTime horaDeFin = LocalTime.of(20, 0);
-		EstacionamientoMedianteApp estacionamientoNuevo = new EstacionamientoMedianteApp(patente, LocalTime.now(), horaDeFin, numeroDeCelular);
-		getSistema().registarEstacionamiento(estacionamientoNuevo);
-		setEstado(new EstadoEstacionamientoVigente());
+		if (hayCreditoDisponible()) {
+			LocalTime horaDeFin = LocalTime.of(20, 0);
+			EstacionamientoMedianteApp estacionamientoNuevo = new EstacionamientoMedianteApp(patente, LocalTime.now(), horaDeFin, numeroDeCelular);
+			getSistema().registarEstacionamiento(estacionamientoNuevo);
+			setEstado(new EstadoEstacionamientoVigente());
+		}
+		else {
+			System.out.println("Saldo insuficiente. Estacionamiento no permitido.");
+		}
 	}
 
+
+	private boolean hayCreditoDisponible() {
+		
+		LocalTime horaActual = LocalTime.now();
+		LocalTime horaDeFinDeLaFranjaHoraria = sistema.getHoraFinFranjaHoraria();		        // Aclaracion: si el dia de mañana cambia la hora de fin, no se tiene que modificar la clase AplicacionUsuario.
+		int diferenciasDeHoras = horaActual.getHour() - horaDeFinDeLaFranjaHoraria.getHour();
+		double creditoNecesario = sistema.valorParaEstaCantidadDeHoras(diferenciasDeHoras);		// Aclaracion: si el dia de mañana cambia el precio por hora, no se tiene que modificar la clase AplicacionUsuario.
+		
+		return creditoDisponible >= creditoNecesario;
+	}
 
 	public void finalizarEstacionamientoSEM() {
 		
 		getSistema().finalizarEstacionamiento(numeroDeCelular);
+		setEstado(new EstadoEstacionamientoNoVigente());
 	}
 	
 	
 	public void setEstado(EstadoEstacionamiento e) {
 		this.estado = e;
+		this.notificacionesActivas = true;
 	}
 	
 	public void driving() {
@@ -98,6 +118,7 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 	public void walking() {
 		this.estado.walking(this);
 	}
+
 
 }
 

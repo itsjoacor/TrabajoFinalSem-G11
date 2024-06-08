@@ -6,16 +6,17 @@ public class ModoDeUsoAutomatico extends ModoDeUso {
 		String patente = "";	// Esto hay que modificarlo, hay que ver con que patente inicia el estacionamiento.
 		a.iniciarEstacionamientoSEM(patente);
 		
-		// hacer el print que es la "notificacion" de inicio de estacionamiento.
+		System.out.println("Alerta: Se inicio el estacionamiento de forma automatica.");
 	}
 	
 	public void notificarPosibleFinDeEstacionamiento(AplicacionUsuario a) {
 		
 		a.finalizarEstacionamientoSEM();
-		// hacer el print que es la "notificacion" de inicio de estacionamiento.
+	
+		System.out.println("Alerta: Se finalizo el estacionamiento de forma automatica.");
 	}
 	
 	public void activarODesactivarNotificaciones(AplicacionUsuario a) {
-		// este mensaje no debe hacer nada.
+		// Este mensaje no debe hacer nada.
 	}
 }

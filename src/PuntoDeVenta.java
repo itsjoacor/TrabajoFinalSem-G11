@@ -41,7 +41,7 @@ public class PuntoDeVenta {
 	private EstacionamientoPorCompraPuntual creacionDeEstacionamiento(String patente, int cantidadDeHoras) {
 		EstacionamientoPorCompraPuntual nuevoEstacionamiento;
 		LocalTime horaActual = LocalTime.now();
-		LocalTime horaFinalizacion = horaActual.minusHours(cantidadDeHoras);
+		LocalTime horaFinalizacion = horaActual.plusHours(cantidadDeHoras);
 		nuevoEstacionamiento = new EstacionamientoPorCompraPuntual(patente, horaActual, horaFinalizacion, cantidadDeHoras);
 		return nuevoEstacionamiento;
 	}

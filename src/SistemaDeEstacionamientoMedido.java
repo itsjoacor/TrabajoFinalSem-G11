@@ -1,11 +1,13 @@
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 public class SistemaDeEstacionamientoMedido {
-	/*atributos en si*/
-	
-	/*conoce a*/
+
+	private double precioPorHora;
+	private LocalTime horaDeFinDeLaFranja;
 	private List<Ticket>                ticketsDelSistema;
 	private List<Infraccion>            infracciones;
 	private List<Notificable>           notificados; //interfaz falta implementar
@@ -16,20 +18,19 @@ public class SistemaDeEstacionamientoMedido {
 	 
 	
 	public SistemaDeEstacionamientoMedido() {
-		
+		precioPorHora = 40.00;
+		horaDeFinDeLaFranja = LocalTime.of(20, 0);
+		ticketsDelSistema = new ArrayList<Ticket>();
+		infracciones = new ArrayList<Infraccion>();
+		notificados = new ArrayList<Notificable>();
+		estacionamientos = new ArrayList<Estacionamiento>();
+		usuarios = new ArrayList<AplicacionUsuario>();
+		zonasDeEstacionamiento = new ArrayList<ZonaDeEstacionamiento>();
 	}
 	
 	public void cargarCelular(int numeroACargar, double monto) {
-		int i = 0;
-		while (i < usuarios.size()) {
-	        AplicacionUsuario usuario = usuarios.get(i); //el usuario es instancia de aplicacionUsuario
-	        if (usuario.getNumero() == numeroACargar)
-	        {
-	            usuario.cargarCredito(monto);
-	            break;
-	        }
-	        i++;
-	    }		// lo busca en la lista de usuarios y le carga credito, actualizandolo
+		
+		usuarios.stream().filter(u -> u.getNumero() == numeroACargar).findFirst().ifPresent(u -> u.cargarCredito(monto));
 	}
 	
 	
@@ -55,7 +56,7 @@ public class SistemaDeEstacionamientoMedido {
 		
 		Optional<Estacionamiento> estacionamientoBuscado = estacionamientos.stream().filter(e -> e.getPatente().equals(p)).findFirst();
 		
-		if (!estacionamientoBuscado.isEmpty()){
+		if (estacionamientoBuscado.isPresent()){
 			return estacionamientoBuscado.get().estaVigente();
 		}
 		return false; 
@@ -63,37 +64,16 @@ public class SistemaDeEstacionamientoMedido {
 	
 	
 	public void finalizarEstacionamiento(int telefono){
-    //como tratar un optional
-    AplicacionUsuario usuarioBuscado = usuarios.stream()
-                                                .filter(u -> u.getNumero() == telefono)
-                                                .findFirst().get();
+    AplicacionUsuario usuarioBuscado = usuarios.stream().filter(u -> u.getNumero() == telefono).findFirst().get();
     
-    Estacionamiento estacionamientoDelUsuario = estacionamientos.stream()
-                                                          .filter(e -> e.getPatente() == usuarioBuscado.getPatente())
-                                                          .findFirst().get();
+    Estacionamiento estacionamientoDelUsuario = estacionamientos.stream().filter(e -> e.getPatente() == usuarioBuscado.getPatente()).findFirst().get();
     
-    double montoACobrar = estacionamientoDelUsuario.montoACobrar();
+    estacionamientoDelUsuario.setHoraFin(LocalTime.now());
     usuarioBuscado.cobrarMonto(montoACobrar);
         
     estacionamientoDelUsuario.darDeBaja();
-    usuarioBuscado.cambiarDeEstado();
-            //si quiero desde el sem finalizar todo, para no tener que setearle un estado, como lo impletente?
-                        //le digo al usuario que finalice y ahi como los estados se conocen se puede relaizar
-        //estadoUsuarioEstacionamiento -> false  FIJARSE ENCAPSULAMIENTO
-
-    int i = 0;
-    while (i < usuarios.size()){
-        AplicacionUsuario usuario = usuarios.get(i);
-        if (usuario.getNumero() == telefono)
-        {
-            usuario.cobrarMonto(montoACobrar);//ver que onda el negativo
-            //usuario.setEstado(objeto o pastel); //ver como implementarlo si es estado.
-            break;
-        }
-        i++;
     }
     
-}
 	
 	
 	public void finalizarTodosLosEstacionamientos() {
@@ -160,6 +140,15 @@ public class SistemaDeEstacionamientoMedido {
 	        i++; /*estoy seguro que se encuentra en la lista, el return corta*/
 		}
 		
+	}
+
+	public double valorParaEstaCantidadDeHoras(int cantidadDeHoras) {
+		
+		return cantidadDeHoras * precioPorHora;
+	}
+
+	public LocalTime getHoraFinFranjaHoraria() {
+		return horaDeFinDeLaFranja;
 	}
 	
 }

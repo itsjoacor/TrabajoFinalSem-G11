@@ -13,6 +13,9 @@ public class EstacionamientoMedianteApp extends Estacionamiento{
 		return numeroDeCelular;
 	}
 	
+	public void setHoraFin(LocalTime hora) {
+		horaFin = hora;
+	}
 	
 
 }

@@ -4,7 +4,7 @@ public class ModoDeUsoManual extends ModoDeUso {
 	public void notificarPosibleInicioDeEstacionamiento(AplicacionUsuario a) {
 		
 		if (a.notificacionesActivas()) {
-			// hacer el print que es la "notificacion" de inicio de estacionamiento.
+			System.out.println("Alerta: Debe iniciar el estacionamiento.");
 		}
 		
 	}
@@ -12,13 +12,13 @@ public class ModoDeUsoManual extends ModoDeUso {
 	public void notificarPosibleFinDeEstacionamiento(AplicacionUsuario a) {
 		
 		if (a.notificacionesActivas()) {
-			// hacer el print que es la "notificacion" de fin de estacionamiento.
+			System.out.println("Alerta: Debe finalizar el estacionamiento que se encuentra vigente.");
 		}
 	}
 	
 	public void activarODesactivarNotificaciones(AplicacionUsuario a) {
 		
-		a.activarODesactivarNotificaciones();
+		a.aODesactivarNotificaciones();
 	}
 
 }
