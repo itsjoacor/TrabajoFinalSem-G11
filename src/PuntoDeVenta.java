@@ -33,7 +33,7 @@ public class PuntoDeVenta {
 
 	private TicketDeHoras creacionDeTicketDeHoras(int cantidadDeHoras) {
 		LocalDateTime horaYFechaActual = LocalDateTime.now();
-		double montoTotal = cantidadDeHoras * 40;
+		double montoTotal =  sistema.montoParaElHorario(LocalTime.now(), LocalTime.now().plusHours(cantidadDeHoras));
 		TicketDeHoras nuevoTicket = new TicketDeHoras(this, horaYFechaActual, montoTotal, cantidadDeHoras);
 		return nuevoTicket;
 	}
@@ -48,9 +48,14 @@ public class PuntoDeVenta {
 	
 	
 	public void cargarCelular(int numero, double monto) {
-		
 		sistema.cargarCelular(numero, monto);
-		
+		sistema.registrarTicket(creacionDeTicketDeRecargaDeCelular(numero, monto));
+	}
+	
+	private TicketDeRecargaDeCelular creacionDeTicketDeRecargaDeCelular(int numero, double monto) {
+		LocalDateTime horaYFechaActual = LocalDateTime.now();
+		TicketDeRecargaDeCelular nuevoTicket = new TicketDeRecargaDeCelular(this, horaYFechaActual, monto, numero);
+		return nuevoTicket;
 	}
 	
 	

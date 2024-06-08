@@ -84,7 +84,7 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 			setEstado(new EstadoEstacionamientoVigente());
 		}
 		else {
-			System.out.println("Saldo insuficiente. Estacionamiento no permitido.");
+			System.out.println("Saldo insuficiente. Estacionamiento no iniciado.");
 		}
 	}
 

@@ -10,7 +10,7 @@ public abstract class Estacionamiento {
 	public Estacionamiento(String p, LocalTime hi, LocalTime hf) {	
 		patente = p;
 		horaInicio = hi;
-		horaFin = hf;
+		horaFin = hf; 
 	}
 
 	public String getPatente() {
