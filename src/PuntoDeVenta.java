@@ -33,8 +33,18 @@ public class PuntoDeVenta {
 
 	private TicketDeHoras creacionDeTicketDeHoras(int cantidadDeHoras) {
 		LocalDateTime horaYFechaActual = LocalDateTime.now();
-		double montoTotal =  sistema.montoParaElHorario(LocalTime.now(), LocalTime.now().plusHours(cantidadDeHoras));
-		TicketDeHoras nuevoTicket = new TicketDeHoras(this, horaYFechaActual, montoTotal, cantidadDeHoras);
+		TicketDeHoras nuevoTicket;
+		double montoTotal;
+		if (LocalTime.now().plusHours(cantidadDeHoras).isAfter(LocalTime.of(20, 0))) {
+			int cantidadDeHorasDeEstacionamiento = 20 - LocalTime.now().getHour();
+			montoTotal =  sistema.montoParaElHorario(LocalTime.now(), LocalTime.of(20, 0));
+			nuevoTicket = new TicketDeHoras(this, horaYFechaActual, montoTotal, cantidadDeHorasDeEstacionamiento);
+		}
+		else {
+			montoTotal =  sistema.montoParaElHorario(LocalTime.now(), LocalTime.now().plusHours(cantidadDeHoras));
+			nuevoTicket = new TicketDeHoras(this, horaYFechaActual, montoTotal, cantidadDeHoras);
+		}
+		
 		return nuevoTicket;
 	}
 
@@ -42,7 +52,11 @@ public class PuntoDeVenta {
 		EstacionamientoPorCompraPuntual nuevoEstacionamiento;
 		LocalTime horaActual = LocalTime.now();
 		LocalTime horaFinalizacion = horaActual.plusHours(cantidadDeHoras);
-		nuevoEstacionamiento = new EstacionamientoPorCompraPuntual(patente, horaActual, horaFinalizacion, cantidadDeHoras);
+		if (horaFinalizacion.isAfter(LocalTime.of(20, 0))) {
+			int cantidadDeHorasDeEstacionamiento = 20 - LocalTime.now().getHour();
+			nuevoEstacionamiento = new EstacionamientoPorCompraPuntual(patente, horaActual, LocalTime.of(20, 0), cantidadDeHorasDeEstacionamiento);
+		}
+		else nuevoEstacionamiento = new EstacionamientoPorCompraPuntual(patente, horaActual, horaFinalizacion, cantidadDeHoras);
 		return nuevoEstacionamiento;
 	}
 	

@@ -9,7 +9,7 @@ public class SistemaDeEstacionamientoMedido {
 	private LocalTime horaDeFinDeLaFranja;
 	private List<Ticket>                ticketsDelSistema;
 	private List<Infraccion>            infracciones;
-	private List<Notificable>           notificados; //interfaz falta implementar
+	private List<Notificable>           notificados;
 	private List<Estacionamiento>       estacionamientos;
 	private List<AplicacionUsuario>     usuarios;
 	private List<ZonaDeEstacionamiento> zonasDeEstacionamiento;

@@ -16,7 +16,7 @@ class testsPuntosDeVenta {
 	@BeforeEach
 	public void setUp() {
 		pdv = new PuntoDeVenta(zona, sem);
-		est = new Estacionamiento("jwm-811", LocalTime.now(), LocalTime.now().plusHours(2));
+		Estacionamiento est = new Estacionamiento("jwm-811", LocalTime.now(), LocalTime.now().plusHours(2));
 		sem = new SistemaDeEstacionamientoMedido();
 		
 		pdv.cargarCelular(1170142623, 100);
