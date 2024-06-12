@@ -43,6 +43,9 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 		modalidad = m;
 	}
 	
+	public Object getModoDeUso() {
+		return modalidad;
+	}
 	
 	public boolean notificacionesActivas(){
 		return notificacionesActivas;
@@ -114,6 +117,7 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 	public void walking() {
 		this.estado.walking(this);
 	}
+
 
 
 }

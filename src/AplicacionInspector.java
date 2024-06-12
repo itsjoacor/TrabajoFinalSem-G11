@@ -23,7 +23,17 @@ public class AplicacionInspector extends AplicacionSEM {
 	private void emitirInfraccion(String patente){
 			Infraccion infraccionACargar = new Infraccion(patente, LocalDate.now(), LocalTime.now(),idInspector, zona);
 			sistema.registrarNuevaInfraccion(infraccionACargar);
+	}
+
+
+	public int getInspectorId() {
+		// TODO Auto-generated method stub
+		return idInspector;
 	}	
+	
+	public ZonaDeEstacionamiento getZonaDelInspector() {
+		return zona;
+	}
 	
 	
 }
