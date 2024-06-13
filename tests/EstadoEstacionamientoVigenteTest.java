@@ -1,3 +1,4 @@
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -13,50 +14,40 @@ import org.mockito.Mockito;
 class EstadoEstacionamientoVigenteTest {
 	private EstadoEstacionamiento estadoV;
 	private AplicacionUsuario     appUs;
+	private SistemaDeEstacionamientoMedido sem;
 
 	@BeforeEach
-	void setUp() throws Exception {
-
+	void setUp(){
+		appUs   = new AplicacionUsuario(sem, 1112345678);
+		sem     = new SistemaDeEstacionamientoMedido();
 		estadoV = new EstadoEstacionamientoVigente();
-		appUs   = mock(AplicacionUsuario.class);
+		
+		sem.registrarUsuario(appUs);
+		
+
 
 	}
 
 	@Test
 	void testSiEstaEnVigenteYSeIniciaDeNuevoNoHaceNadaConLaApp() {
 		estadoV.iniciarEstacionamiento(appUs, "unaPatenteX");
-
+		
 		verifyNoInteractions(appUs);
 
 	}
 
 	@Test
 	void testSiEstaVigenteYSeFinalizaSeFinalizaEnSEMYCambiaEstadoEnApp(){
-		//Ver como implementar me falla que no hubo interactions??????
-		//SistemaDeEstacionamientoMedido sem = mock(SistemaDeEstacionamientoMedido.class);
-
-		//when(appUs.getSistema()).thenReturn(sem);
-
-		//estadoV.finalizarEstacionamiento(appUs);
-
-		//verify(sem, times(1)).finalizarEstacionamiento(appUs);
-		//verify(appUs, times(1)).setEstado(argThat(estado -> estado instanceof EstadoEstacionamientoNoVigente));
-
+		
+		when(appUs.getSistema()).thenReturn(sem);
+		
+		estadoV.finalizarEstacionamiento(appUs); 
+		verify(sem, times(1)).finalizarEstacionamiento(any());
+		verify(appUs, times(1)).setEstado(argThat(estado -> estado instanceof EstadoEstacionamientoNoVigente));
 	}
 
-	@Test
-	void testSiEstaEnVigenteYSeVuelveAIniciarNoNotificaApp() {
-
-		estadoV.iniciarEstacionamiento(appUs, "unaPatenteX");
-		verifyNoInteractions(appUs);
-	}
-
-	@Test
-	void testSiEstaEnVigenteYSeDesactivaNotificadoInteractuaConLaApp() {
-		//ver como implementar
-
-	}
-
+	
+	
 }
 
 
