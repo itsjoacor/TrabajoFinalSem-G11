@@ -41,6 +41,9 @@ class AplicacionInspectorTest {
 	
 	
 	
+
+	
+	
 	// usage
 	@Test
 	void unaPatenteQueNoEstaRegistradaObtieneInfraccion(){
@@ -52,21 +55,16 @@ class AplicacionInspectorTest {
 	
 	@Test
 	void unaPatenteQueSiEstaRegistradaNOObtieneInfraccion(){
-		//terminar
-		//falta ingresar El usuario al sistema y que tenga la patente dada para
-		//poder verificar que este vigente
-		AplicacionUsuario appUs = mock(AplicacionUsuario.class);
-
+		when(sem.estaVigenteLaPatente("unaPatentex")).thenReturn(true);
+		appIn.consultarEstacionamiento("unaPatentex");
 		
-		when(sem.estaVigenteLaPatente("AA111BB")).thenReturn(false);
-		appIn.consultarEstacionamiento("AA111BB");
-		verify(sem).registrarNuevaInfraccion(any());
+		verify(sem).estaVigenteLaPatente("unaPatentex");
+	    verifyNoMoreInteractions(sem);
 	
-		
 	}
 	
 	
 	
-	
+
 	
 }
