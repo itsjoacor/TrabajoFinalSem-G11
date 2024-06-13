@@ -5,7 +5,7 @@ import java.time.LocalTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class TestsPuntosDeVenta {
+class PuntosDeVentaTest {
 	
 	private AplicacionInspector insp;
 	private ZonaDeEstacionamiento zona;
@@ -15,10 +15,10 @@ class TestsPuntosDeVenta {
 	
 	@BeforeEach
 	public void setUp() {
+		zona = new ZonaDeEstacionamiento(insp);
 		sem  = new SistemaDeEstacionamientoMedido();
 		pdv  = new PuntoDeVenta(zona, sem);
 		insp = new AplicacionInspector(sem, 1234, zona);
-		zona = new ZonaDeEstacionamiento(insp);
 		usu  = new AplicacionUsuario(sem, 1170142623);
 		
 		sem.registrarUsuario(usu);
@@ -28,9 +28,7 @@ class TestsPuntosDeVenta {
 	
 	@Test
 	void testObtenerZonaDelPuntoDeVenta() {
-		ZonaDeEstacionamiento zonaPDV = pdv.getZonaDelPunto();
-		
-		assertEquals(zonaPDV, zona);
+		assertEquals(pdv.getZonaDelPunto(), zona);
 	}
 	
 	@Test

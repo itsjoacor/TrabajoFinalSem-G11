@@ -84,7 +84,7 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 		}
 		
 		if (this.patente == null) {
-			println("Se debe registrar una patente antes de que se inicie el estacionamiento de forma automatica.");
+			System.out.println("Se debe registrar una patente antes de que se inicie el estacionamiento de forma automatica.");
 		} 
 		else {
 				if (hayCreditoDisponible()) {
@@ -94,7 +94,7 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 					setEstado(new EstadoEstacionamientoVigente());
 			}
 				else {
-					println("Saldo insuficiente. Estacionamiento no iniciado.");
+					System.out.println("Saldo insuficiente. Estacionamiento no iniciado.");
 			}
 		}
 	}
@@ -132,15 +132,6 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 	public void walking() {
 		this.estado.walking(this);
 	}
-
-	
-	
-	public void println(String mensaje) { // Este metodo nos facilita mucho mas verificar los tests,
-		System.out.println(mensaje);      // afirmando que se ejecuto el print con el parametro que nosotros buscamos.
-	}
-
-
-
 
 }
 
