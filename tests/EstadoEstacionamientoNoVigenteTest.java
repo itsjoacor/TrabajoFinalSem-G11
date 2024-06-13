@@ -16,7 +16,7 @@ class EstadoEstacionamientoNoVigenteTest {
 	private SistemaDeEstacionamientoMedido sem;
 
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp(){
 
 		estadoNV = new EstadoEstacionamientoNoVigente();
 		appUs    = mock(AplicacionUsuario.class);
