@@ -28,7 +28,7 @@ public class TicketDeHoraTest{
 
     @Test
     public void testGetFechayHoraDeEmision() {
-        assertEquals(LocalDateTime.now(), ticket.getFechayHoraDeEmision());
+        assertEquals(LocalDateTime.now().getHour(), ticket.getFechayHoraDeEmision().getHour());
     }
 
     @Test

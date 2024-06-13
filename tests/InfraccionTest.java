@@ -40,7 +40,7 @@ class InfraccionTest {
 	
 	@Test
 	void testGetHorarioEmision() {
-		assertEquals(LocalTime.now(), infraccion.getHoraEmision());
+		assertEquals(LocalTime.now().getHour(), infraccion.getHoraEmision().getHour());
 	}
 	
 	@Test

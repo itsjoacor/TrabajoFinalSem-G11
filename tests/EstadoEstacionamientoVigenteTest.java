@@ -23,8 +23,6 @@ class EstadoEstacionamientoVigenteTest {
 		estadoV = new EstadoEstacionamientoVigente();
 		
 		sem.registrarUsuario(appUs);
-		
-
 
 	}
 
@@ -42,7 +40,7 @@ class EstadoEstacionamientoVigenteTest {
 		when(appUs.getSistema()).thenReturn(sem);
 		
 		estadoV.finalizarEstacionamiento(appUs); 
-		verify(sem, times(1)).finalizarEstacionamiento(any());
+		verify(sem, times(1)).finalizarEstacionamiento(Mockito.any());
 		verify(appUs, times(1)).setEstado(argThat(estado -> estado instanceof EstadoEstacionamientoNoVigente));
 	}
 
