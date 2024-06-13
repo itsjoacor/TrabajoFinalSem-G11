@@ -79,15 +79,23 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 	
 	public void iniciarEstacionamientoSEM(String patente){
 		
-		this.patente = patente;
-		if (hayCreditoDisponible()) {
-			LocalTime horaDeFin = LocalTime.of(20, 0);
-			EstacionamientoMedianteApp estacionamientoNuevo = new EstacionamientoMedianteApp(patente, LocalTime.now(), horaDeFin, numeroDeCelular);
-			getSistema().iniciarEstacionamiento(estacionamientoNuevo, this);
-			setEstado(new EstadoEstacionamientoVigente());
+		if(patente != null) {
+			this.patente = patente;
 		}
+		
+		if (this.patente == null) {
+			System.out.println("Se debe registrar una patente antes de que se inicie el estacionamiento de forma automatica.");
+		} 
 		else {
-			System.out.println("Saldo insuficiente. Estacionamiento no iniciado.");
+				if (hayCreditoDisponible()) {
+					LocalTime horaDeFin = LocalTime.of(20, 0);
+					EstacionamientoMedianteApp estacionamientoNuevo = new EstacionamientoMedianteApp(this.patente, LocalTime.now(), horaDeFin, numeroDeCelular);
+					getSistema().iniciarEstacionamiento(estacionamientoNuevo, this);
+					setEstado(new EstadoEstacionamientoVigente());
+			}
+				else {
+					System.out.println("Saldo insuficiente. Estacionamiento no iniciado.");
+			}
 		}
 	}
 
@@ -102,6 +110,11 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 		
 		getSistema().finalizarEstacionamiento(numeroDeCelular);
 		setEstado(new EstadoEstacionamientoNoVigente());
+	}
+	
+	
+	public void registrarPatente(String patente) {
+		this.patente = patente;
 	}
 	
 	
