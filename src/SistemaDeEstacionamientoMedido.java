@@ -75,7 +75,7 @@ public class SistemaDeEstacionamientoMedido {
 	
 	
 	public void finalizarEstacionamiento(int telefono){
-    AplicacionUsuario usuarioBuscado = usuarios.stream().filter(u -> u.getNumero() == telefono).findFirst().get();
+	AplicacionUsuario usuarioBuscado = usuarios.stream().filter(u -> u.getNumero() == telefono).findFirst().get();
     
     Estacionamiento estacionamientoDelUsuario = estacionamientos.stream().filter(e -> e.getPatente() == usuarioBuscado.getPatente()).findFirst().get();
     
