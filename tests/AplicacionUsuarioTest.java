@@ -1,22 +1,26 @@
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-class TestsAplicacionUsuario {
+class AplicacionUsuarioTest {
 	
 	private AplicacionUsuario usu;
 	private SistemaDeEstacionamientoMedido sem;
 	private EstacionamientoMedianteApp est;
 	private ModoDeUsoManual modoManualMockito = mock(ModoDeUsoManual.class);
+	private ModoDeUsoManual modoManual = new ModoDeUsoManual();
 	private EstadoEstacionamientoVigente estVigenteMockito = mock(EstadoEstacionamientoVigente.class);
 	
 	@BeforeEach
 	public void setUp() {
 		sem  = new SistemaDeEstacionamientoMedido();
 		usu  = new AplicacionUsuario(sem, 1170142623);
+		sem.registrarUsuario(usu);
 	}
 
 	@Test
@@ -55,7 +59,7 @@ class TestsAplicacionUsuario {
 		usu.cargarCredito(100);
 		usu.cobrarMonto(20);
 		
-		assertEquals(usu.creditoDisponible(), 70);
+		assertEquals(usu.creditoDisponible(), 80);
 	}
 	
 	@Test
@@ -85,7 +89,7 @@ class TestsAplicacionUsuario {
 	void testPosibleFinDeEstacionamientoPorModoAutomatico() {
 		usu.registrarPatente("jwm811");
 		usu.cargarCredito(5000);
-		usu.iniciarEstacionamientoSEM("jwm811"); //Es lo mismo el mensaje que usamos para iniciar estacionamiento
+		usu.iniciarEstacionamiento("jwm811"); //Es lo mismo el mensaje que usamos para iniciar estacionamiento
 		
 		usu.notificarPosibleFinEstacionamiento();
 		boolean patenteVigente = sem.estaVigenteLaPatente("jwm811");
@@ -98,32 +102,44 @@ class TestsAplicacionUsuario {
 		usu.establecerElModoDeUso(modoManualMockito);
 		
 		usu.notificarPosibleInicioEstacionamiento();
-		
-		verify(modoManualMockito).println("Alerta: Debe iniciar el estacionamiento.");
+
+		verify(modoManualMockito, times(1)).notificarPosibleInicioDeEstacionamiento(Mockito.any());
 	}
 	
 	@Test
 	void testPosibleFinDeEstacionamientoPorModoManual() {
+		usu.registrarPatente("jwm811");
+		usu.cargarCredito(5000);
+		usu.iniciarEstacionamientoSEM("jwm811");
 		usu.establecerElModoDeUso(modoManualMockito);
 		
 		usu.notificarPosibleFinEstacionamiento(); //No hace falta iniciarlo en este test porque solo queremos recibir una notificacion
 		
-		verify(modoManualMockito).println("Alerta: Debe finalizar el estacionamiento que se encuentra vigente.");
+		
+		verify(modoManualMockito, times(1)).notificarPosibleFinDeEstacionamiento(Mockito.any());
 	}
 	
 	@Test
-	void testMiModoActivaODesactivaMisNotificaciones() {
-		usu.establecerElModoDeUso(modoManualMockito);
+	void testMiModoActivaODesactivaMisNotificacionesConModoManual() {
+		usu.establecerElModoDeUso(modoManual);
 		usu.activarODesactivarNotificaciones();
 		
 		assertEquals(usu.notificacionesActivas(), false); //Porque inician activadas.
 	}
 	
 	@Test
-	void testASeActivanODesactivanMisNotificaciones() {
-		usu.activarODesactivarNotificaciones();
+	void testASeActivanODesactivanMisNotificacionesModoManual() {
+		usu.establecerElModoDeUso(new ModoDeUsoManual());
+		usu.aODesactivarNotificaciones();
 		
 		assertEquals(usu.notificacionesActivas(), false);
+	}
+	
+	@Test
+	void testMiModoActivaODesactivaMisNotificacionesConModoAutomatico() {
+		usu.activarODesactivarNotificaciones();
+		
+		assertEquals(usu.notificacionesActivas(), true); //Porque no cambia nada
 	}
 	
 	@Test
@@ -137,21 +153,7 @@ class TestsAplicacionUsuario {
 		
 		assertEquals(usu.getPatente(), "jwm811");
 	}
-	
-	@Test
-	void testQuieroIniciarEstacionamientoEnSEMPeroNoTengoPatenteRegistrada() {
-		usu.iniciarEstacionamientoSEM("jwm811");
-		
-		verify(usu).println("Se debe registrar una patente antes de que se inicie el estacionamiento de forma automatica.");
-	}
-	
-	@Test
-	void testQuieroIniciarEstacionamientoEnSEMPeroNoTengoCreditoDisponible() {
-		usu.registrarPatente("jwm811");
-		usu.iniciarEstacionamientoSEM("jwm811");
-		
-		verify(usu).println("Saldo insuficiente. Estacionamiento no iniciado.");
-	}
+
 	
 	@Test
 	void testIniciarEstacionamientoEnSEM() {
@@ -167,12 +169,12 @@ class TestsAplicacionUsuario {
 	void testFinalizarEstacionamientoEnSEM() {
 		usu.registrarPatente("jwm811");
 		usu.cargarCredito(5000);
-		usu.iniciarEstacionamientoSEM("jwm811");
+		usu.iniciarEstacionamiento("jwm811");
 		
 		usu.finalizarEstacionamientoSEM();
 		boolean patenteVigente = sem.estaVigenteLaPatente("jwm811");
 		
-		assertEquals(patenteVigente, true);
+		assertEquals(patenteVigente, false);
 	}
 	
 	@Test
@@ -192,10 +194,10 @@ class TestsAplicacionUsuario {
 	@Test
 	void testCambioSensorAppADriving() {
 		usu.establecerElModoDeUso(modoManualMockito);
-		usu.setEstado(estVigenteMockito);
+		usu.setEstado(new EstadoEstacionamientoVigente());
 		usu.driving();
 		
-		verify(usu).println("Alerta: Debe finalizar el estacionamiento que se encuentra vigente.");
+		verify(modoManualMockito, times(1)).notificarPosibleFinDeEstacionamiento(Mockito.any());
 	}
 	
 	@Test
@@ -203,7 +205,7 @@ class TestsAplicacionUsuario {
 		usu.establecerElModoDeUso(modoManualMockito);
 		usu.walking(); //La app se encuentra al inicio en estado NO vigente
 		
-		verify(usu).println("Alerta: Debe iniciar el estacionamiento.");
+		verify(modoManualMockito, times(1)).notificarPosibleInicioDeEstacionamiento(Mockito.any());
 	}
 
 }
