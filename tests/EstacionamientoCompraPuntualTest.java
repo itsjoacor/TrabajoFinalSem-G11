@@ -17,6 +17,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 class EstacionamientoCompraPuntualTest {
 	
+	private EstacionamientoPorCompraPuntual eCP1;
+	
 
 	@Test
 	void testConstructor(){
@@ -26,7 +28,7 @@ class EstacionamientoCompraPuntualTest {
 		LocalTime horaInicio = LocalTime.now();
 		LocalTime horaFin    = LocalTime.now().plusHours(cantH);
 		
-		EstacionamientoPorCompraPuntual eCP1 = new EstacionamientoPorCompraPuntual(patente, horaInicio, horaFin, cantH);
+		eCP1 = new EstacionamientoPorCompraPuntual(patente, horaInicio, horaFin, cantH);
 		assertEquals(patente, eCP1.getPatente());
 		assertEquals(horaInicio, eCP1.getHoraInicio());
 		assertEquals(horaFin, eCP1.getHoraFin());
@@ -47,7 +49,11 @@ class EstacionamientoCompraPuntualTest {
 		assertTrue(eCP1.estaVigente());
 	}
 	
-	
+	@Test
+	void testObtenerCantHorasCompradas() {
+		eCP1 = new EstacionamientoPorCompraPuntual("unaPatentex", LocalTime.now(), LocalTime.now().plusHours(2), 2);
+		assertEquals(eCP1.getCantidadDeHorasCompradas(), 2);
+	}
 	
 
 
