@@ -88,7 +88,7 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 		} 
 		else {
 				if (hayCreditoDisponible()) {
-					LocalTime horaDeFin = LocalTime.of(20, 0);
+					LocalTime horaDeFin = sistema.getHoraFinFranjaHoraria();
 					EstacionamientoMedianteApp estacionamientoNuevo = new EstacionamientoMedianteApp(this.patente, LocalTime.now(), horaDeFin, numeroDeCelular);
 					getSistema().iniciarEstacionamiento(estacionamientoNuevo, this);
 					setEstado(new EstadoEstacionamientoVigente());

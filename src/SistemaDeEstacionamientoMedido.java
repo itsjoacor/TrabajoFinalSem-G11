@@ -33,7 +33,7 @@ public class SistemaDeEstacionamientoMedido {
 		
 		if(usuario.isPresent()){
 			usuario.get().cargarCredito(monto);
-			notificarATodosCargaDeCredito(usuario.get());
+			notificarCargaDeCredito(usuario.get());
 		}
 	}
 	
@@ -45,8 +45,9 @@ public class SistemaDeEstacionamientoMedido {
 	
 	public void iniciarEstacionamiento(Estacionamiento e, AplicacionUsuario a){
 		estacionamientos.add(e);
-		notificarATodosInicioDeEstacionamiento(a);
+		notificarInicioDeEstacionamiento(a);
 	}
+	
 	
 	public void iniciarEstacionamiento(Estacionamiento e){
 		estacionamientos.add(e);
@@ -81,22 +82,22 @@ public class SistemaDeEstacionamientoMedido {
     estacionamientoDelUsuario.setHoraFin(LocalTime.now());
     usuarioBuscado.cobrarMonto(montoParaElHorario(estacionamientoDelUsuario.getHoraInicio(), LocalTime.now()));
     
-    notificarATodosFinalizacionDeEstacionamiento(usuarioBuscado);
+    notificarFinalizacionDeEstacionamiento(usuarioBuscado);
   
 	}
     
 	
-	private void notificarATodosFinalizacionDeEstacionamiento(AplicacionUsuario a) {
+	private void notificarFinalizacionDeEstacionamiento(AplicacionUsuario a) {
 		notificados.stream().forEach(n -> n.inicioEstacionamiento(a));
 	}
 	
 	
-	private void notificarATodosInicioDeEstacionamiento(AplicacionUsuario a) {
+	private void notificarInicioDeEstacionamiento(AplicacionUsuario a) {
 		notificados.stream().forEach(n -> n.finalizoEstacionamiento(a));
 	}
 	
 	
-	private void notificarATodosCargaDeCredito(AplicacionUsuario a) {
+	private void notificarCargaDeCredito(AplicacionUsuario a) {
 		notificados.stream().forEach(n -> n.cargoCredito(a));
 	}
 	
