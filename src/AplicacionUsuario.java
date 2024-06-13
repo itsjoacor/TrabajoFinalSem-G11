@@ -43,7 +43,7 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 		modalidad = m;
 	}
 	
-	public Object getModoDeUso() {
+	public ModoDeUso getModoDeUso() {
 		return modalidad;
 	}
 	
