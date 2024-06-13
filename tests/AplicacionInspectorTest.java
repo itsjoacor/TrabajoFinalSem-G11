@@ -1,8 +1,6 @@
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,9 +60,5 @@ class AplicacionInspectorTest {
 	    verifyNoMoreInteractions(sem);
 	
 	}
-	
-	
-	
-
 	
 }
