@@ -37,10 +37,13 @@ public class SistemaDeEstacionamientoMedido {
 		}
 	}
 	
-	
 	public void registrarTicket(Ticket ticket) {
 		ticketsDelSistema.add(ticket);
 		
+	}
+	
+	public List<Ticket> getTickets() {
+		return this.ticketsDelSistema;
 	}
 	
 	public void iniciarEstacionamiento(Estacionamiento e, AplicacionUsuario a){
@@ -48,20 +51,29 @@ public class SistemaDeEstacionamientoMedido {
 		notificarInicioDeEstacionamiento(a);
 	}
 	
-	
 	public void iniciarEstacionamiento(Estacionamiento e){
 		estacionamientos.add(e);
 	}
 	
+	public List<Estacionamiento> getEstacionamientos() {
+		return this.estacionamientos;
+	}
 
 	public void registrarUsuario(AplicacionUsuario u) {
 		usuarios.add(u);
 	}
 	
-	public void registrarInfraccion(Infraccion i) {
+	public List<AplicacionUsuario> getUsuarios() {
+		return this.usuarios;
+	}
+	
+	public void registrarNuevaInfraccion(Infraccion i) {
 		infracciones.add(i);
 	}
 	
+	public List<Infraccion> getinfracciones() {
+		return this.infracciones;
+	}
 	
 	public boolean estaVigenteLaPatente(String p) {
 		
@@ -108,24 +120,23 @@ public class SistemaDeEstacionamientoMedido {
 			usuario.finalizarEstacionamiento();
        }
 	}
-
-
-	public void registrarNuevaInfraccion(Infraccion inf){
-		infracciones.add(inf);
-	}
 	
-
+	
 	public void subscribirNotificado(Notificable n) {
 		notificados.add(n);
 	}
 	
-
 	
 	public void desuscscribirNotificado(Notificable n) {
 		notificados.remove(n);
 	}
 	
+	
+	public List<Notificable> getNotificados() {
+		return this.notificados;
+	}
 
+	
 	public double montoParaElHorario(LocalTime horaInicio, LocalTime horaFin) {
 		
 		return (horaFin.getHour() - horaInicio.getHour()) * precioPorHora;	
@@ -136,8 +147,13 @@ public class SistemaDeEstacionamientoMedido {
 		return horaDeFinDeLaFranja;
 	}
 	
+	
 	public void registrarNuevaZona(ZonaDeEstacionamiento z) {
 		zonasDeEstacionamiento.add(z);
+	}
+
+	public List<ZonaDeEstacionamiento> getZonasRegistradas() {
+		return this.zonasDeEstacionamiento;
 	}
 	
 }

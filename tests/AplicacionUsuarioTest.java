@@ -11,7 +11,6 @@ class AplicacionUsuarioTest {
 	
 	private AplicacionUsuario usu;
 	private SistemaDeEstacionamientoMedido sem;
-	private EstacionamientoMedianteApp est;
 	private ModoDeUsoManual modoManualMockito = mock(ModoDeUsoManual.class);
 	private ModoDeUsoManual modoManual = new ModoDeUsoManual();
 	private EstadoEstacionamientoVigente estVigenteMockito = mock(EstadoEstacionamientoVigente.class);
