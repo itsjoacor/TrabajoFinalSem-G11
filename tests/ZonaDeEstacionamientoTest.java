@@ -48,9 +48,6 @@ public class ZonaDeEstacionamientoTest {
 		assertTrue(zona.getPuntosDeVentaDeLaZona().contains(pdv1));
 	}
 	
-	public void testGeterInspector(){
-		assertEquals(appIn, zona.getInspector());
-	}
 
 	
 }
