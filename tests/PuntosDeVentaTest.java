@@ -46,6 +46,14 @@ class PuntosDeVentaTest {
 		assertEquals(patenteVigente, true);
 	}
 	
+	@Test
+	void testRegistrarEstacionamientoPorCompraPuntualPorMuchasHoras() {
+		pdv.registrarEstacionamiento("jwm811", 20);
+		boolean patenteVigente = sem.estaVigenteLaPatente("jwm811");
+		
+		assertEquals(patenteVigente, false); //Porque me pase de las 20hs
+	}
+	
 
 	@Test
 	void testCargaCelular() {
@@ -54,6 +62,5 @@ class PuntosDeVentaTest {
 		
 		assertEquals(creditoObtenido, 100);
 	}
-	
 
 }
