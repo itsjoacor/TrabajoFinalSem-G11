@@ -77,7 +77,7 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 		return patente;	
 	}
 	
-	public void iniciarEstacionamientoSEM(String patente){
+	public void iniciarEstacionamientoSEM(String patente) {
 		
 		if(patente != null) {
 			this.patente = patente;

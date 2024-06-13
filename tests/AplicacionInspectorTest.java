@@ -26,21 +26,14 @@ class AplicacionInspectorTest {
 	}
 	// constructor
 	@Test
-	void testGetInspectorID(){
+	void testConstructorInspector(){
+		
 		assertEquals(1010, appIn.getInspectorId());
-	}
-	
-	void testGetZona(){
-		assertEquals(zona, appIn.getZonaDelInspector());
-	}
-	void testGetSem(){
+		assertEquals(appIn.getZonaDelInspector(), zona);
 		assertEquals(sem, appIn.getSistema());
 	}
 	
-	
-	
-
-	
+		
 	
 	// usage
 	@Test

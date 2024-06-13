@@ -1,4 +1,6 @@
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -106,7 +108,7 @@ class AplicacionUsuarioTest {
 	}
 	
 	@Test
-	void testPosibleFinDeEstacionamientoPorModoManual() {
+	void testPosibleFinDeEstacionamientoPorModoManual() throws Exception {
 		usu.registrarPatente("jwm811");
 		usu.cargarCredito(5000);
 		usu.iniciarEstacionamientoSEM("jwm811");
@@ -155,7 +157,7 @@ class AplicacionUsuarioTest {
 
 	
 	@Test
-	void testIniciarEstacionamientoEnSEM() {
+	void testIniciarEstacionamientoEnSEM() throws Exception {
 		usu.registrarPatente("jwm811");
 		usu.cargarCredito(5000);
 		usu.iniciarEstacionamientoSEM("jwm811");

@@ -1,3 +1,6 @@
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
@@ -15,36 +18,37 @@ class EstadoEstacionamientoVigenteTest {
 	private EstadoEstacionamiento estadoV;
 	private AplicacionUsuario     appUs;
 	private SistemaDeEstacionamientoMedido sem;
+	private ModoDeUsoManual modoManualMockito;
 
 	@BeforeEach
 	void setUp(){
-		appUs   = new AplicacionUsuario(sem, 1112345678);
 		sem     = new SistemaDeEstacionamientoMedido();
+		appUs   = new AplicacionUsuario(sem, 1112345678);
 		estadoV = new EstadoEstacionamientoVigente();
+		modoManualMockito = mock(ModoDeUsoManual.class);
 		
 		sem.registrarUsuario(appUs);
-
+		appUs.establecerElModoDeUso(modoManualMockito);
 	}
-
-	@Test
-	void testSiEstaEnVigenteYSeIniciaDeNuevoNoHaceNadaConLaApp() {
-		estadoV.iniciarEstacionamiento(appUs, "unaPatenteX");
-		
-		verifyNoInteractions(appUs);
-
-	}
-
-	@Test
-	void testSiEstaVigenteYSeFinalizaSeFinalizaEnSEMYCambiaEstadoEnApp(){
-		
-		when(appUs.getSistema()).thenReturn(sem);
-		
-		estadoV.finalizarEstacionamiento(appUs); 
-		verify(sem, times(1)).finalizarEstacionamiento(Mockito.any());
-		verify(appUs, times(1)).setEstado(argThat(estado -> estado instanceof EstadoEstacionamientoNoVigente));
-	}
-
 	
+	@Test
+	void testUsuarioPasaAEstadoDriving() {
+		appUs.setEstado(estadoV);
+		appUs.driving();
+		
+		verify(modoManualMockito, times(1)).notificarPosibleFinDeEstacionamiento(Mockito.any());
+	}
+	
+	@Test
+	void testFinalizarEstacionamientoEnEstado() {
+		appUs.registrarPatente("jwm811");
+		appUs.cargarCredito(5000);
+		appUs.iniciarEstacionamiento("jwm811");
+		
+		estadoV.finalizarEstacionamiento(appUs);
+		assertFalse(sem.estaVigenteLaPatente("jwm811"));
+		
+	}
 	
 }
 

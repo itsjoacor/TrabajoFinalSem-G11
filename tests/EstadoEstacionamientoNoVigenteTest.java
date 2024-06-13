@@ -14,24 +14,36 @@ class EstadoEstacionamientoNoVigenteTest {
 	private EstadoEstacionamiento estadoNV;
 	private AplicacionUsuario              appUs;
 	private SistemaDeEstacionamientoMedido sem;
+	private ModoDeUsoManual modoManualMockito;
 
 	@BeforeEach
 	void setUp(){
 
+		sem     = new SistemaDeEstacionamientoMedido();
 		estadoNV = new EstadoEstacionamientoNoVigente();
-		appUs    = mock(AplicacionUsuario.class);
-		sem      = mock(SistemaDeEstacionamientoMedido.class);
+		modoManualMockito = mock(ModoDeUsoManual.class);
+		
 	}
 
 	
 	@Test
 	void testSiEstaEnEstadoNoVigenteFinalizarNoInteractuaConApp() {
+		AplicacionUsuario appUs = mock(AplicacionUsuario.class);
 		estadoNV.finalizarEstacionamiento(appUs);
 
 		verifyNoInteractions(appUs);
 	}
 
-	//Ver que otros tests hacer
+	@Test
+	void testElUsuarioPasaAEstadoWalking() {
+		appUs = new AplicacionUsuario(sem, 1112345678);
+		sem.registrarUsuario(appUs);
+		appUs.establecerElModoDeUso(modoManualMockito);
+		appUs.setEstado(estadoNV);
+		appUs.walking();
+		
+		verify(modoManualMockito, times(1)).notificarPosibleInicioDeEstacionamiento(Mockito.any());
+	}
 	
 
 }
