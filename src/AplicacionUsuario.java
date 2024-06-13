@@ -84,7 +84,7 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 		}
 		
 		if (this.patente == null) {
-			System.out.println("Se debe registrar una patente antes de que se inicie el estacionamiento de forma automatica.");
+			println("Se debe registrar una patente antes de que se inicie el estacionamiento de forma automatica.");
 		} 
 		else {
 				if (hayCreditoDisponible()) {
@@ -94,16 +94,9 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 					setEstado(new EstadoEstacionamientoVigente());
 			}
 				else {
-					System.out.println("Saldo insuficiente. Estacionamiento no iniciado.");
+					println("Saldo insuficiente. Estacionamiento no iniciado.");
 			}
 		}
-	}
-
-
-	private boolean hayCreditoDisponible() {
-	        																											// Aclaracion: si el dia de mañana cambia la hora de fin, no se tiene que modificar la clase AplicacionUsuario.
-		double creditoNecesario = sistema.montoParaElHorario(LocalTime.now(), sistema.getHoraFinFranjaHoraria());		// Aclaracion: si el dia de mañana cambia el precio por hora, no se tiene que modificar la clase AplicacionUsuario.
-		return creditoDisponible >= creditoNecesario;
 	}
 
 	public void finalizarEstacionamientoSEM() {
@@ -111,7 +104,12 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 		getSistema().finalizarEstacionamiento(numeroDeCelular);
 		setEstado(new EstadoEstacionamientoNoVigente());
 	}
-	
+
+	private boolean hayCreditoDisponible() {
+	        																											// Aclaracion: si el dia de mañana cambia la hora de fin, no se tiene que modificar la clase AplicacionUsuario.
+		double creditoNecesario = sistema.montoParaElHorario(LocalTime.now(), sistema.getHoraFinFranjaHoraria());		// Aclaracion: si el dia de mañana cambia el precio por hora, no se tiene que modificar la clase AplicacionUsuario.
+		return creditoDisponible >= creditoNecesario;
+	}
 	
 	public void registrarPatente(String patente) {
 		this.patente = patente;
@@ -123,6 +121,10 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 		this.notificacionesActivas = true;
 	}
 	
+	public EstadoEstacionamiento getEstadoEstacionamiento() {
+		return this.estado;
+	}
+	
 	public void driving() {
 		this.estado.driving(this);
 	}
@@ -130,6 +132,13 @@ public class AplicacionUsuario extends AplicacionSEM implements MovementSensor  
 	public void walking() {
 		this.estado.walking(this);
 	}
+
+	
+	
+	public void println(String mensaje) { // Este metodo nos facilita mucho mas verificar los tests,
+		System.out.println(mensaje);      // afirmando que se ejecuto el print con el parametro que nosotros buscamos.
+	}
+
 
 
 
